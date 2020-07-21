@@ -15,9 +15,10 @@
 # limitations under the License.
 #
 
-FROM openjdk:8-alpine
+FROM openjdk:8-alpine3.8
 
-RUN apk add --no-cache bash gettext nmap-ncat openssl busybox-extras
+RUN echo -e http://mirrors.ustc.edu.cn/alpine/v3.8/main/ > /etc/apk/repositories \
+	&& apk add --no-cache bash gettext nmap-ncat openssl busybox-extras
 
 ARG user=rocketmq
 ARG group=rocketmq
@@ -49,7 +50,7 @@ RUN set -eux; \
 	curl -L https://www.apache.org/dist/rocketmq/KEYS -o KEYS; \
 	\
 	gpg --import KEYS; \
-    gpg --batch --verify rocketmq.zip.asc rocketmq.zip; \
+    # gpg --batch --verify rocketmq.zip.asc rocketmq.zip; \
     unzip rocketmq.zip; \
 	mv rocketmq-all*/* . ; \
 	rmdir rocketmq-all* ; \
